@@ -7,9 +7,6 @@ import os
 class ConfigDefault:
     """Class with default settings"""
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    URL_S3_ZAP = os.environ.get(
-        "URL_S3_ZAP",
-        "http://grupozap-code-challenge.s3-website-us-east-1.amazonaws.com/sources/source-2.json")
     LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')
     AMOUNT_PROCESS = os.environ.get('AMOUNT_PROCESS', 1)
     PORT_SERVER = os.environ.get('PORT_SERVER', 8889)
