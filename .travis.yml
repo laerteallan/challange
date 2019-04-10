@@ -6,4 +6,6 @@ matrix:
     env: TEST_SUITE=UNITTEST
 
 install:
-  - pip install -r requirements.txt
+  - pip install -r requirements-dev.txt
+
+script: py.test --cov=challenge tests
