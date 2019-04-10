@@ -8,4 +8,8 @@ matrix:
 install:
   - pip install -r requirements-dev.txt
 
+branches:
+  only:
+  - master
+
 script: make tests
