@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+
+  api:
+    container_name: api_challenge
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python manager.py start
+    ports:
+      - "8889:8889"
+    environment:
+      - LOG_LEVEL=INFO
+      - AMOUNT_PROCESS=1
+      - PORT_SERVER=8889
+      - APPLICATION_ENV=Homol
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge

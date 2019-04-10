@@ -1,0 +1,15 @@
+language: python
+matrix:
+  include:
+  - name: "3.7.2 Unittest"
+    python: "3.7.2"
+    env: TEST_SUITE=suite_3_5_unit
+  - name: "3.7.2 Integration Tests"
+    python: "3.7.2"
+    env: TEST_SUITE=suite_3_5_integration
+  - name: "pypy Unit Tests"
+    python: "pypy"
+    env: TEST_SUITE=suite_pypy_unit
+
+install:
+  - pip install -r requirements.txt
