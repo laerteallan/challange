@@ -1,12 +1,16 @@
 
 import logging
+import multiprocessing
+from concurrent.futures import ThreadPoolExecutor
 
+from tornado.concurrent import Future, chain_future
 from tornado.ioloop import IOLoop
 from tornado.web import RequestHandler
 
 from challenge.config import get_config
 from challenge.exceptions import ERRORS_CHALLENGE
 
+COUNT_CPU = multiprocessing.cpu_count()
 config_ = get_config()
 logger = logging.getLogger(__file__)
 
@@ -22,9 +26,13 @@ class ApiJsonHandler(RequestHandler):
         """Error Internal Server."""
         return "Error Internal Server"
 
-    async def _execute_ioloop_current(self, func, *args):
-        resutl = await IOLoop.current().run_in_executor(None, func, *args)
-        return resutl
+    def _execute_ioloop(self, func, *args):
+        """Execute method ioloop."""
+        pool = ThreadPoolExecutor(max_workers=COUNT_CPU)
+        old_future = pool.submit(func, *args)
+        new_future = Future()
+        IOLoop.current().add_future(old_future, lambda fut: chain_future(fut, new_future))
+        return new_future
 
     def write_error(self, status_code, **kwargs):
         self.clear()
@@ -48,7 +56,7 @@ class ApiJsonHandler(RequestHandler):
     async def _execute_method(self, p_method, p_param):
         """Execute method of instance."""
         try:
-            result = await self._execute_ioloop_current(p_method, p_param)
+            result = await self._execute_ioloop(p_method, p_param)
             self.success(200, result)
         except ERRORS_CHALLENGE as error:
             logger.exception(str(error))

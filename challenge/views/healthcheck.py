@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class HealthcheckApi(ApiJsonHandler):
     __urls__ = ['/healthcheck']
 
-    async def get(self):
+    def get(self):
         data = {
             'status': 'ok',
         }
