@@ -22,7 +22,6 @@ export LOG_LEVEL=INFO
 export AMOUNT_PROCESS=1
 export PORT_SERVER=8889
 export APPLICATION_ENV=Homol
-export URL_S3_ZAP="http://grupozap-code-challenge.s3-website-us-east-1.amazonaws.com/sources/source-2.json"
 ```
 # Rodar os testes
 Basta executar os seguintes comando
@@ -40,21 +39,7 @@ python manager.py start
 # API
 
 Foi disponibilizada 2 endpoints um de healthcheck e outro para a pesquisa.
-O que diferencia o zap do viva real é a opção **partner** onde os existentes são **zap** para "Zap Imóveis" e **viva** para  "Vivareal". Lembrando que é obrigatório passar o numero da págian coforme abaixo.
-Nessa api de pesquisa foi disponibilizado um campo a mais de número de páginas (**Pois eu achei interessante ter.**) e temos 40 items por página.
-
-```sh
-http://localhost:8889/v1/api?partner=zap&pageNumber=100
-http://localhost:8889/healthcheck
-```
 
 # Execução dos Endpoints
 
 
-```sh
-curl -X GET http://localhost:8889/healthcheck
-{"status": "success", "message": {"status": "ok"}}
- 
-curl -X GET 'http://localhost:8889/v1/api?partner=zap&pageNumber=100'
- 
-```
