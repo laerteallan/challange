@@ -18,7 +18,7 @@ log = logging.getLogger(__file__)
 
 class Server:
 
-    def __init__(self, port=8889, base_conrig={}, instances=1, type_start="developer"):
+    def __init__(self, port=8889, base_config={}, instances=1, type_start="developer"):
         self.__port = int(port)
         self.__base_config = base_config
         self.__instance = int(instances)
