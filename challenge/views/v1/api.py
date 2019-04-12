@@ -1,8 +1,14 @@
+import copy
+import logging
 
 from webargs import ValidationError, fields
-# from webargs.tornadoparser import parser
+from webargs.tornadoparser import parser
 
+from challenge.exceptions import ERRORS_CHALLENGE, TypePaymentNotFound
+from challenge.payments.factory import FactoryTypePayment
 from challenge.views.v1 import ViewsChallenge
+
+logger = logging.getLogger(__file__)
 
 
 def validate_field_null(value):
@@ -11,11 +17,39 @@ def validate_field_null(value):
 
 
 class Api(ViewsChallenge):
-    __urls__ = ["{}/api".format(ViewsChallenge._version)]
-    _contract = {
-        "partner": fields.Str(required=True, validate=validate_field_null),
-        "pageNumber": fields.Int(required=True)
-    }
+    __urls__ = ["{}/api/payments/type/(?P<type_payment>[a-zA-Z0-9]+)/?".format(ViewsChallenge._version)]
+    __contract_default = {"client_id": fields.Int(required=True, validate=validate_field_null),
+                          "name_buyer": fields.Str(required=True, validate=validate_field_null),
+                          "email_buyer": fields.Str(required=True, validate=validate_field_null),
+                          "cpf_buyer": fields.Str(required=True, validate=validate_field_null),
+                          "amount": fields.Float(required=True),
+                          }
+    __contract_boleto = copy.copy(__contract_default)
 
-    async def get(self, *args, **kwargs):
-        await self.finish("teste")
+    __contract_card = copy.copy(__contract_default)
+    __contract_card.update({"card_name": fields.Str(required=True, validate=validate_field_null),
+                            "card_number": fields.Str(required=True, validate=validate_field_null),
+                            "card_expiration_date": fields.Str(required=True, validate=validate_field_null),
+                            "card_cvc": fields.Int(required=True, validate=validate_field_null),
+                            })
+    __type_paymends = {"card": __contract_card,
+                       "boleto": __contract_boleto}
+
+    def __get_param_parser(self, p_type):
+        if p_type not in self.__type_paymends.keys():
+            raise TypePaymentNotFound("Payment not found %s" % p_type)
+        return parser.parse(self.__type_paymends[p_type], self.request)
+
+    def __get_instance(self, p_type):
+        """Return instance payment."""
+        return FactoryTypePayment.get_instance(p_type)
+
+    async def post(self, type_payment):
+        """Post to create payment."""
+        try:
+            param = self.__get_param_parser(type_payment)
+            instance = self.__get_instance(type_payment)
+            await self._execute_method(instance.create, param)
+        except ERRORS_CHALLENGE as error:
+            logger.exception(str(error))
+            self.error(400, str(error))

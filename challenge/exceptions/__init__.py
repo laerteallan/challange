@@ -33,12 +33,6 @@ class ObjectNotExists(Exception):
     pass
 
 
-class PartnerNotFound(Exception):
-
-    """Partner Not found."""
-    pass
-
-
 class PageNotFound(Exception):
 
     """Page Not found."""
@@ -51,10 +45,20 @@ class ObjectExists(Exception):
     pass
 
 
+class TypePaymentNotFound(Exception):
+    """Type payment not exist."""
+    pass
+
+
+class CreditCartdInvalid(Exception):
+    """Credit Card Invalid."""
+    pass
+
+
 class InstanceNotFound(Exception):
     """Instance not found"""
     pass
 
 
 ERRORS_CHALLENGE = (ErrorStartTornado, ParamInvalid, ObjectExists, InstanceNotFound,
-                    ObjectNotExists, PartnerNotFound, PageNotFound)
+                    ObjectNotExists, PageNotFound, TypePaymentNotFound, CreditCartdInvalid)

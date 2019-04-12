@@ -71,5 +71,5 @@ def get_config():
     config_var = os.getenv('APPLICATION_ENV', 'Homol')
     enviroment = "{}Config".format(config_var)
     config_challenge = getattr(importlib.import_module("challenge.config"), enviroment)
-    logging.config.dictConfig(config_challenge.LOGGING)
+    #logging.config.dictConfig(config_challenge.LOGGING)
     return config_challenge
