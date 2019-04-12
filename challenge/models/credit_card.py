@@ -1,13 +1,12 @@
 import logging
 import re
 
-from sqlalchemy import (Column, ForeignKeyConstraint, Integer,
-                        String, func, or_)
+from sqlalchemy import Column, ForeignKeyConstraint, Integer, String
 from sqlalchemy.orm import relationship
 
 from challenge.exceptions import CreditCartdInvalid, ParamInvalid
 
-from .payments import Payments, STATUS_SUCCESS
+from .payments import STATUS_SUCCESS, Payments
 
 log = logging.getLogger(__file__)
 
