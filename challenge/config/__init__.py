@@ -7,6 +7,11 @@ import os
 class ConfigDefault:
     """Class with default settings"""
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI", "persons")
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = bool(os.environ.get("SQLALCHEMY_COMMIT_ON_TEARDOWN", True))
+    SQLALCHEMY_TRACK_MODIFICATIONS = bool(os.environ.get("SQLALCHEMY_TRACK_MODIFICATIONS", ""))
+    SQLALCHEMY_POOL_SIZE = os.environ.get("SQLALCHEMY_POOL_SIZE", 25)
+    SQLALCHEMY_ECHO = bool(os.environ.get("SQLALCHEMY_ECHO", ""))
     LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')
     AMOUNT_PROCESS = os.environ.get('AMOUNT_PROCESS', 1)
     PORT_SERVER = os.environ.get('PORT_SERVER', 8889)
@@ -71,5 +76,5 @@ def get_config():
     config_var = os.getenv('APPLICATION_ENV', 'Homol')
     enviroment = "{}Config".format(config_var)
     config_challenge = getattr(importlib.import_module("challenge.config"), enviroment)
-    #logging.config.dictConfig(config_challenge.LOGGING)
+    logging.config.dictConfig(config_challenge.LOGGING)
     return config_challenge
