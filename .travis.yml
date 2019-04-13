@@ -11,6 +11,10 @@ install:
   - pip install -r requirements-dev.txt
 
 services:
+  postgres:
+    adapter: postgresql
+    database: challenge
+    username: postgres
   addons:
     postgresql: 9.6
 
