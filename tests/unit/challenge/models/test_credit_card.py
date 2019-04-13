@@ -189,7 +189,8 @@ class TestPaymentCreditCardModel(BaseTestClass):
         self.assertTrue(mock_commit.called)
         self.assertEqual(result["card_flag"], "JCB")
 
-    def test_get_info_dict(self):
+    @mock.patch("challenge.models.credit_card.CreditCard._commit")
+    def test_get_info_dict(self, mock_commit):
         """Test set default params."""
 
         param = {"client_id": 10,
@@ -216,3 +217,4 @@ class TestPaymentCreditCardModel(BaseTestClass):
         self.assertEqual(result["card_flag"], "JCB")
         self.assertEqual(result["card_expiration_date"], param["card_expiration_date"])
         self.assertEqual(result["card_cvv"], param["card_cvv"])
+        self.assertTrue(mock_commit.called)

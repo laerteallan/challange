@@ -19,7 +19,8 @@ class TestPaymentBoletoModel(BaseTestClass):
         boleto.create(param)
         self.assertTrue(mock_commit.called)
 
-    def test_get_info_dict(self):
+    @mock.patch("challenge.models.boleto.Boleto._commit")
+    def test_get_info_dict(self, mock_commit):
         """Test set default params."""
 
         param = {"client_id": 10,
@@ -38,3 +39,4 @@ class TestPaymentBoletoModel(BaseTestClass):
         self.assertEqual(float(result["amount"]), param["amount"])
         self.assertEqual(result["status"], "SUCCESS")
         self.assertIsNotNone(result["number"])
+        self.assertTrue(mock_commit.called)
