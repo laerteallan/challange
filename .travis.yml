@@ -27,7 +27,7 @@ branches:
 
 script: 
   - python manager.py create 
-  - run tests
+  - make tests
 
 after_success:
     - coveralls
