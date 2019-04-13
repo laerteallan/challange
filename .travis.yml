@@ -21,4 +21,4 @@ branches:
   only:
   - master
 
-script: make tests
+script: python manager.py create && make tests
