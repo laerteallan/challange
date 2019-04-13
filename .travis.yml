@@ -20,10 +20,14 @@ before_script:
  - psql --version
  - psql -U postgres -c 'create database challenge;'
 
+
 branches:
   only:
   - master
 
 script: 
   - python manager.py create 
-  - make tests
+  - run tests
+
+after_success:
+    - coveralls
