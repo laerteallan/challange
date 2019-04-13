@@ -5,7 +5,7 @@ matrix:
     python: "3.7-dev"
     env: TEST_SUITE=UNITTEST
          APPLICATION_ENV=Testing
-         SQLALCHEMY_DATABASE_URI=postgresql://admin:123456@localhost/challenge        
+         SQLALCHEMY_DATABASE_URI=postgresql://postgres:@localhost/challenge        
 
 install:
   - pip install -r requirements-dev.txt
@@ -20,7 +20,6 @@ services:
 
   before_script:
     - psql -c 'create database challenge;' -U postgres
-    - psql -c "CREATE USER admin WITH PASSWORD '123456';" -U postgres
 branches:
   only:
   - master
