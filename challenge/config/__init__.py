@@ -69,7 +69,6 @@ class HomolConfig(ConfigDefault):
 class ProductionConfig(ConfigDefault):
     """Production Settings"""
     LOGS_LEVEL = logging.ERROR
-    URL_MODULE_ADMINISTRATIVE = os.environ.get("URL_MODULE_ADMINISTRATIVE")
 
 
 def get_config():

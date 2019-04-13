@@ -4,6 +4,8 @@ matrix:
   - name: "3.7.2 Unittest"
     python: "3.7-dev"
     env: TEST_SUITE=UNITTEST
+         APPLICATION_ENV=Testing
+         SQLALCHEMY_DATABASE_URI=postgresql://postgres:123456@localhost/challenge        
 
 install:
   - pip install -r requirements-dev.txt
