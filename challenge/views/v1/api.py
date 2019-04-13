@@ -18,7 +18,7 @@ def validate_field_null(value):
 
 class Api(ViewsChallenge):
     __urls__ = ["{}/api/payments/type/(?P<type_payment>[a-zA-Z0-9]+)/?".format(ViewsChallenge._version)]
-    __contract_default = {"client_id": fields.Int(required=True, validate=validate_field_null),
+    __contract_default = {"client_id": fields.Int(required=True),
                           "name_buyer": fields.Str(required=True, validate=validate_field_null),
                           "email_buyer": fields.Email(required=True),
                           "cpf_buyer": fields.Str(required=True, validate=validate_field_null),
@@ -63,6 +63,7 @@ class ViewListPayments(ViewsChallenge):
                        "value": fields.Str(required=True, validate=validate_field_null),
                        "page": fields.Int(required=True, default=0),
                        "amount_item": fields.Int(required=True, default=20),
+                       "type": fields.Str(),
                        }
 
     async def get(self):

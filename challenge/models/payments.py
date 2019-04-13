@@ -12,6 +12,9 @@ STATUS_CANCELLED = 2
 STATUS = {STATUS_SUCCESS: "SUCCESS",
           STATUS_CANCELLED: "CANCELLED"}
 
+TYPE_PAYMENT = {"card": "cd",
+                "boleto": "bo"}
+
 log = logging.getLogger(__file__)
 
 
@@ -73,6 +76,12 @@ class Payments(BaseModel):
             raise ParamInvalid("Amount invalid")
         self.amount = p_value
 
+    def __get_type_payment(self, p_type):
+        """Return type payment."""
+        if p_type not in TYPE_PAYMENT:
+            raise ParamInvalid("Type Payament Invalid")
+        return TYPE_PAYMENT[p_type]
+
     def add_params_default(self, kwargs):
         """Add payment."""
         client_id = kwargs.get("client_id")
@@ -93,6 +102,7 @@ class Payments(BaseModel):
         raise NotImplementedError
 
     def get_info_dict(self):
+        """Return all info in dict."""
         return {"client_id": self.client_id,
                 "id": self.id,
                 "name_buyer": self.name_buyer,
@@ -101,10 +111,13 @@ class Payments(BaseModel):
                 "cpf_buyer": self.cpf_buyer,
                 "amount": "%.2f" % round(self.amount, 2)}
 
-    def __get_options_search(self, search_by, value):
+    def __get_options_search(self, search_by, value, p_type):
         """Query to search."""
         value = str(value).lower()
         query = self.session.query(Payments)
+        if p_type:
+            type_payment = self.__get_type_payment(p_type)
+            query = self.session.query(Payments).filter_by(type_payment=type_payment)
         param = {"name": query.filter(func.lower(Payments.name_buyer).like("%{}%".format(value))),
                  "id": query.filter_by(id=value),
                  "cpf_buyer": query.filter_by(cpf_buyer=value)
@@ -120,7 +133,8 @@ class Payments(BaseModel):
         page = kwargs.get("page", 0)
         value = kwargs.get("value", "")
         search_by = kwargs.get("search_by", "name")
-        query = self.__get_options_search(search_by, value)
+        type_payment = kwargs.get("type", "")
+        query = self.__get_options_search(search_by, value, type_payment)
         query = query.limit(amount_item).offset(page * amount_item)
         payments = []
         for payment in query:

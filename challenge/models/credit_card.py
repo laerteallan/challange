@@ -64,7 +64,7 @@ class CreditCard(Payments):
 
     def __validate_credit_card(self, p_number):
         """Validate credit card."""
-        if not self.__check_validate_credit_card(p_number):
+        if not p_number or not self.__check_validate_credit_card(p_number):
             raise CreditCartdInvalid("Credit Card Invalid")
 
     @staticmethod

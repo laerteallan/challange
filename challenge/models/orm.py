@@ -16,7 +16,7 @@ class Orm(metaclass=Singleton):
         self.__engine = create_engine(config.SQLALCHEMY_DATABASE_URI,
                                       pool_pre_ping=True,
                                       pool_size=config.SQLALCHEMY_POOL_SIZE,
-                                      convert_unicode=True)
+                                      )
         self.__db_session = scoped_session(sessionmaker(autocommit=False,
                                                         autoflush=False,
                                                         bind=self.__engine))
