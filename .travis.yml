@@ -19,7 +19,8 @@ services:
     postgresql: 9.6
 
   before_script:
-    - psql -c 'create database challenge;' -U postgres
+    - "psql -c 'create database challenge;' -U postgres"
+    - "rake db:migrate"
 branches:
   only:
   - master
