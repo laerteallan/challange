@@ -7,7 +7,7 @@ from challenge.models.orm import Orm
 from tests import BaseTestClass
 
 
-class TestInitModel(BaseTestClass):
+class TestOrmModel(BaseTestClass):
 
     """Class for test the methods module method __init__ models."""
 
@@ -16,7 +16,7 @@ class TestInitModel(BaseTestClass):
 
     @mock.patch('challenge.models.orm.create_engine')
     @mock.patch('challenge.models.orm.scoped_session')
-    def test_orm_neighbors(self, mock_scoped_session, mock_create_engine):
+    def test_orm(self, mock_scoped_session, mock_create_engine):
         """Test Orm Object."""
         object_fake = mock.MagicMock()
         orm = Orm()
@@ -28,7 +28,7 @@ class TestInitModel(BaseTestClass):
 
     @mock.patch('challenge.models.orm.create_engine')
     @mock.patch('challenge.models.orm.scoped_session')
-    def test_orm_neighbors_error(self, mock_scoped_session, mock_create_engine):
+    def test_orm_error(self, mock_scoped_session, mock_create_engine):
         """Test Orm Object."""
         object_fake = mock.MagicMock()
         mock_scoped_session().add.side_effect = Exception("error")
@@ -39,7 +39,7 @@ class TestInitModel(BaseTestClass):
 
     @mock.patch('challenge.models.orm.create_engine')
     @mock.patch('challenge.models.orm.scoped_session')
-    def test_orm_neighbors_commit_error(self, mock_scoped_session, mock_create_engine):
+    def test_orm_commit_error(self, mock_scoped_session, mock_create_engine):
         """Test Orm Object."""
         object_fake = mock.MagicMock()
         mock_scoped_session().flush.side_effect = Exception("error")
@@ -50,7 +50,7 @@ class TestInitModel(BaseTestClass):
 
     @mock.patch('challenge.models.orm.create_engine')
     @mock.patch('challenge.models.orm.scoped_session')
-    def test_orm_neighbors_delete_object(self, mock_scoped_session, mock_create_engine):
+    def test_orm_delete_object(self, mock_scoped_session, mock_create_engine):
         """Test Orm Object."""
         object_fake = mock.MagicMock()
         orm = Orm()
