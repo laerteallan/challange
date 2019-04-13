@@ -11,18 +11,19 @@ install:
   - pip install -r requirements-dev.txt
 
 services:
-  postgres:
-    adapter: postgresql
-    database: challenge
-    username: postgres
-  addons:
-    postgresql: 9.6
+ - postgresql
 
-  before_script:
-    - "psql -c 'create database challenge;' -U postgres"
-    - "rake db:migrate"
+addons:
+  postgresql: 9.6
+
+before_script:
+ - psql --version
+ - psql -U postgres -c 'create database challenge;'
+
 branches:
   only:
   - master
 
-script: python manager.py create && make tests
+script: 
+  - python manager.py create 
+  - make tests
