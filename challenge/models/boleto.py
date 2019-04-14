@@ -31,9 +31,14 @@ class Boleto(Payments):
     def __init__(self):
         Payments.__init__(self)
 
+    def __generate_number_boleto_fake(self):
+        """Generate number boleto fake."""
+        numbers = "0123456789"
+        return "".join(random.choice(numbers) for character in range(48))
+
     def __set_number(self):
         """Set number boleto."""
-        self.number = random.randint(1, 101)
+        self.number = self.__generate_number_boleto_fake()
 
     def create(self, kwargs):
         """Create Payment Boleto."""
