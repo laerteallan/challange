@@ -3,20 +3,33 @@ version: '3'
 services:
 
   api:
-    container_name: api_challenge
+    container_name: challenge
     build:
       context: .
       dockerfile: Dockerfile
-    command: python manager.py start
+    command:  bash -c "python manager.py create && python manager.py start"
+    depends_on:
+      - db
     ports:
       - "8889:8889"
     environment:
-      - LOG_LEVEL=INFO
-      - AMOUNT_PROCESS=1
-      - PORT_SERVER=8889
       - APPLICATION_ENV=Homol
+      - SQLALCHEMY_DATABASE_URI=postgresql://postgres:123456@postgreedb/challenge
+      - PORT_SERVER=8889
     networks:
       - default
+  db:
+    container_name: postgreedb
+    image: postgres:9.6
+    restart: always
+    ports:
+        - 5432:5432
+    environment:
+        - POSTGRES_DB=challenge
+        - POSTGRES_PASSWORD=123456
+    command: ["-c", "shared_buffers=256MB", "-c", "max_connections=500"]
+    networks:
+        - default
 
 networks:
   default:

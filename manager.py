@@ -1,4 +1,5 @@
 import sys
+import time
 from challenge import views
 from challenge.config import get_config
 from challenge.server import Server
@@ -36,6 +37,7 @@ def main(p_params):
     if "create" in p_params:
         if len(p_params) < 1:
             raise Exception("Not found url database.")
+        time.sleep(4)
         orm = Orm()
         init_db(orm)
 
