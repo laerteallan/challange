@@ -1,10 +1,11 @@
+import datetime
 import logging
 import re
 
 from sqlalchemy import Column, ForeignKeyConstraint, Integer, String
 from sqlalchemy.orm import relationship
 
-from challenge.exceptions import CreditCartdInvalid, ParamInvalid
+from challenge.exceptions import CreditCartdInvalid, ParamInvalid, ExpirationDateExceeded
 
 from .payments import STATUS_SUCCESS, Payments
 
@@ -75,6 +76,17 @@ class CreditCard(Payments):
                 return brand
         return 'Not Identify'
 
+    def __validate_date_expiration(self, p_value):
+        try:
+
+            date_format = '%m/%y'
+            result = datetime.datetime.strptime(p_value, date_format)
+            now = datetime.datetime.now()
+            if now > result:
+                raise ExpirationDateExceeded("Expiration Date Exceeded")
+        except ValueError:
+            raise ParamInvalid("time data '12310/19' does not match format '%m/%y'")
+
     def __set_card_name(self, p_value):
         """Set card name."""
         if not p_value:
@@ -94,6 +106,7 @@ class CreditCard(Payments):
         """Set card expiration."""
         if not p_value:
             raise ParamInvalid("Card Expiration date can't null.")
+        self.__validate_date_expiration(p_value)
         self.card_expiration_date = p_value
 
     def __set_card_cvv(self, p_value):

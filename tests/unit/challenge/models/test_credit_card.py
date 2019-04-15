@@ -1,7 +1,7 @@
 
 import mock
 
-from challenge.exceptions import ParamInvalid, CreditCartdInvalid
+from challenge.exceptions import ParamInvalid, CreditCartdInvalid, ExpirationDateExceeded
 from challenge.models.credit_card import CreditCard
 from challenge.models.payments import STATUS_SUCCESS
 from tests import BaseTestClass
@@ -65,6 +65,36 @@ class TestPaymentCreditCardModel(BaseTestClass):
                  "card_name": "name card",
                  "card_number": "372383317788974",
                  "card_expiration_date": "",
+                 "card_cvv": "789",
+                 "amount": 1000.89,
+                 "status": STATUS_SUCCESS}
+        card = CreditCard()
+        with self.assertRaises(ParamInvalid):
+            card.create(param)
+
+    def test_create_card_expiration_date_invalid_date(self):
+        param = {"client_id": 10,
+                 "name_buyer": "Name buyer",
+                 "email_buyer": "teste@mail.com",
+                 "cpf_buyer": "09185485617",
+                 "card_name": "name card",
+                 "card_number": "372383317788974",
+                 "card_expiration_date": "10/10",
+                 "card_cvv": "789",
+                 "amount": 1000.89,
+                 "status": STATUS_SUCCESS}
+        card = CreditCard()
+        with self.assertRaises(ExpirationDateExceeded):
+            card.create(param)
+
+    def test_create_card_expiration_date_param_invalid(self):
+        param = {"client_id": 10,
+                 "name_buyer": "Name buyer",
+                 "email_buyer": "teste@mail.com",
+                 "cpf_buyer": "09185485617",
+                 "card_name": "name card",
+                 "card_number": "372383317788974",
+                 "card_expiration_date": "10/101",
                  "card_cvv": "789",
                  "amount": 1000.89,
                  "status": STATUS_SUCCESS}

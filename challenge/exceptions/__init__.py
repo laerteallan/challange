@@ -55,10 +55,15 @@ class CreditCartdInvalid(Exception):
     pass
 
 
+class ExpirationDateExceeded(Exception):
+    """Expiration Date Exceeded."""
+    pass
+
+
 class InstanceNotFound(Exception):
     """Instance not found"""
     pass
 
 
 ERRORS_CHALLENGE = (ErrorStartTornado, ParamInvalid, ObjectExists, InstanceNotFound,
-                    ObjectNotExists, PageNotFound, TypePaymentNotFound, CreditCartdInvalid)
+                    ObjectNotExists, PageNotFound, TypePaymentNotFound, CreditCartdInvalid, ExpirationDateExceeded)
