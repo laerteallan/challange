@@ -3,7 +3,7 @@
 
 # Test Challenge
 
-This project was written in **Python** language using a version **3.7.2**, with the framework **Tornado**, the of default **REST**, design pattern **Factory** and was used an **object oriented programming** with a great **organization** and **traceability** of it. The **Tornado** was chosen as an **asynchronous framework** and independent. The Tornado is one the best python frameworks on the market for **performance** . 
+This project was written in **Python** language using a version **3.7.2**, with the framework **Tornado**, the of default **REST**, design pattern **Factory**, **PostgreSql** to database, **Sqlalchemy Object Relational*** and was used an **object oriented programming** with a great **organization** and **traceability** of it. The **Tornado** was chosen as an **asynchronous framework** and independent. The Tornado is one the best python frameworks on the market for **performance** . 
 The test has also been developed on a **docker** platform, so it is scalable horizontally with **high performance** and **portability**. The test has a in your structure the default  **python community** and is using the main static analysis tools (sonar, PEP8, PEP247, radron and etc.) that are most commonly used for quality code. This test was added **CI Travis** disponibled by **Github**, with a configuration YAML file, where **any changes of the branch master,  the tests will be running that has a 100% coverage**, giving tranquility to any future change, without fear of error. The test has logs and are displayed in the **stdout** of the machine as in the defaults for deploys in **CLOUD**.
 
 # Install
