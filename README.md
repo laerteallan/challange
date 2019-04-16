@@ -97,7 +97,7 @@ curl -X POST \
 
 {"status": "success", "message": {"card_flag": "Visa", "id": 138}}
 ```
-For list of payments, execute curl to endpoint http://localhost:8889/v1/api/payments?value=lae&amount_item=40&page=0&search_by=name&type=card. Changed type to card, boleto or remove type
+For list of payments, execute curl to endpoint http://localhost:8889/v1/api/payments?value=name&amount_item=40&page=0&search_by=name&type=card. Changed type to card, boleto or remove type
 for show all payments.
 
 ```sh
