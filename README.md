@@ -114,7 +114,7 @@ curl -X GET \
             "type": "Credit Card",
             "card_number": "4984423484992298",
             "card_flag": "Visa",
-            "card_expiration_date": "0125122",
+            "card_expiration_date": "12/20",
             "card_cvv": 232,
             "client_id": 10,
             "id": 1,
